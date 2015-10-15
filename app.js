@@ -1,10 +1,9 @@
 var Sequelize = require('sequelize')
+, db = require('./db.js')
 , config = require('./config.json')
+, schema = require('./schema.js')
 , express = require('express')
-, Sequelize
-, Organization
 , app = express();
-
 
 // User.sync({force: true}).then(function () {
 //   // Table created
@@ -13,48 +12,53 @@ var Sequelize = require('sequelize')
 //     lastName: 'Hancock'
 //   });
 // });
-
-
-
+console.log(schema);
 app.get('/', function (req, res) {
-     Organization.findAll().then(function (orgs) {
+    res.json('no');
+});
+
+app.post('/api/users', function (req, res) {
+    //create user
+    // schema.User.findOrCreate({
+
+    // })
+});
+
+app.get('/api/users', function (req, res) {
+     schema.User.findAll().then(function (orgs) {
         var arr = [];
         for(var x in orgs) {
             arr.push(orgs[x].get({
                 plain: true
             }));
         }
-        res.send(arr);
+        res.json(arr);
     });
 });
 
-var server = app.listen(3000, function () {
-    sequelize = new Sequelize('got_awareness', config.username, config.password, {
-      host: 'localhost',
-      dialect: 'mysql',
-
-      pool: {
-        max: 5,
-        min: 0,
-        idle: 10000
-      },
-
-    });
-
-    Organization = sequelize.define('organizations', {
-        id: {
-            type: Sequelize.INTEGER,
-            primaryKey: true,
-            auto_increment: true
-        },
-        name: {
-            type: Sequelize.STRING
-        },
-        code: {
-            type: Sequelize.STRING
-        }
-    }, {
-        freezeTableName: true,
-        timestamps: false
-    });
+app.get('/api/organizations', function (req, res) {
+    var arr = [];
+    if (req.query.name) {
+        schema.Organization.findAll({
+            where: {
+                name: req.query.name
+            }
+        }).then(function (orgs) {
+            for(var x in orgs) {
+                arr.push(orgs[x]);
+            }
+            res.json(arr);
+        });
+    } else {
+        schema.Organization
+            .findAll()
+            .then(function (orgs) {
+                for(var x in orgs) {
+                    arr.push(orgs[x]);
+                }
+                res.json(arr);
+        });
+    }
 });
+
+var server = app.listen(3000);
