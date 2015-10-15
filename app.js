@@ -14,7 +14,7 @@ var Sequelize = require('sequelize')
 // });
 console.log(schema);
 app.get('/', function (req, res) {
-    res.json('no');
+    res.redirect('')
 });
 
 app.post('/api/users', function (req, res) {
@@ -32,7 +32,7 @@ app.get('/api/users', function (req, res) {
                 plain: true
             }));
         }
-        res.json(arr);
+        res.json({data: arr});
     });
 });
 
@@ -47,7 +47,7 @@ app.get('/api/organizations', function (req, res) {
             for(var x in orgs) {
                 arr.push(orgs[x]);
             }
-            res.json(arr);
+            res.json({data: arr});
         });
     } else {
         schema.Organization
@@ -56,7 +56,7 @@ app.get('/api/organizations', function (req, res) {
                 for(var x in orgs) {
                     arr.push(orgs[x]);
                 }
-                res.json(arr);
+                res.json({data: arr});
         });
     }
 });
