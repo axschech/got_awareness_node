@@ -1,25 +1,19 @@
-var Sequelize = require('sequelize')
-, db = require('./db.js')
-, config = require('./config.json')
-, schema = require('./schema.js')
+var Organization = require('./schema/organization.js')
+, User = require('./schema/user.js')
+, Message = require('./schema/message.js')
 , express = require('express')
+, bodyParser = require('body-parser')
 , app = express();
 
-// User.sync({force: true}).then(function () {
-//   // Table created
-//   return User.create({
-//     firstName: 'John',
-//     lastName: 'Hancock'
-//   });
-// });
-console.log(schema);
-app.get('/', function (req, res) {
-    res.redirect('')
+app.use(bodyParser.json());
+
+app.get(['/', '/api'], function (req, res) {
+    res.redirect('http://dev.axschech.com/got_awareness_new');
 });
 
 app.post('/api/users', function (req, res) {
-    //create user
-    // schema.User.findOrCreate({
+    // check user
+    // schema.User.find({
 
     // })
 });
