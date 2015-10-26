@@ -3,13 +3,14 @@ module.exports =  sequelize.define('users', {
         id: {
             type: sequelize.Sequelize.INTEGER,
             primaryKey: true,
-            auto_increment: true
+            autoIncrement: true
         },
         name: {
             type: sequelize.Sequelize.STRING
         },
         email: {
-            type: sequelize.Sequelize.STRING
+            type: sequelize.Sequelize.STRING,
+            unique: true
         },
         password: {
             type: sequelize.Sequelize.STRING
